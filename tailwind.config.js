@@ -29,8 +29,11 @@ module.exports = {
                 surface: "var(--color-surface)",
                 primary: "var(--color-primary)",
                 accent: "var(--color-accent)",
-                text: "var(--color-text)",
-                border: "var(--color-border)",
+                text: 'var(--color-text)',
+                'text-muted': 'var(--color-text-muted)',
+                border: 'var(--color-border)',
+                engineering: 'var(--color-engineering)',
+                health: 'var(--color-health)',
             },
             borderRadius: {
                 "2xl": "16px",

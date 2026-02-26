@@ -5,7 +5,7 @@ import { Shield, Sparkles } from 'lucide-react-native';
 import { PText, PButton, PCard } from '../components/porcelain';
 import { pageClass, pagePadClass } from '../lib/styles';
 import { useTeam } from '../lib/TeamContext';
-import { usePorcelainTheme } from '../lib/theme';
+import { usePorcelainTheme, COLORS } from '../lib/theme';
 
 export default function RegistrationScreen() {
     const router = useRouter();
@@ -32,6 +32,8 @@ export default function RegistrationScreen() {
 
     const inputClass = "h-14 rounded-xl border border-border bg-surface px-4 font-inter text-text mb-4";
 
+    const placeholderColor = scheme === 'dark' ? 'rgba(240, 244, 244, 0.3)' : 'rgba(45, 62, 64, 0.3)';
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -51,7 +53,7 @@ export default function RegistrationScreen() {
 
                 <PCard className="mb-8">
                     <View className="flex-row items-center gap-2 mb-6">
-                        <Sparkles size={18} className="text-primary" />
+                        <Sparkles size={18} color={COLORS[scheme].primary} />
                         <PText variant="h3">Team Registration</PText>
                     </View>
 
@@ -59,7 +61,7 @@ export default function RegistrationScreen() {
                     <TextInput
                         className={inputClass}
                         placeholder="Enter team name..."
-                        placeholderTextColor={scheme === 'dark' ? '#FFFFFF50' : '#2D3E4050'}
+                        placeholderTextColor={placeholderColor}
                         value={form.teamName}
                         onChangeText={(v) => setForm(f => ({ ...f, teamName: v }))}
                     />
@@ -68,7 +70,7 @@ export default function RegistrationScreen() {
                     <TextInput
                         className={inputClass}
                         placeholder="Alice, Bob, Charlie..."
-                        placeholderTextColor={scheme === 'dark' ? '#FFFFFF50' : '#2D3E4050'}
+                        placeholderTextColor={placeholderColor}
                         value={form.members}
                         onChangeText={(v) => setForm(f => ({ ...f, members: v }))}
                     />
@@ -77,7 +79,7 @@ export default function RegistrationScreen() {
                     <TextInput
                         className={inputClass}
                         placeholder="e.g. Grade 10"
-                        placeholderTextColor={scheme === 'dark' ? '#FFFFFF50' : '#2D3E4050'}
+                        placeholderTextColor={placeholderColor}
                         value={form.gradeLevel}
                         onChangeText={(v) => setForm(f => ({ ...f, gradeLevel: v }))}
                     />

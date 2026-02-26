@@ -3,7 +3,7 @@ import { View, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 import { PenLine } from 'lucide-react-native';
 import { PText, PCard, PButton } from '../../../components/porcelain';
 import { pageClass, pagePadClass } from '../../../lib/styles';
-import { usePorcelainTheme } from '../../../lib/theme';
+import { usePorcelainTheme, COLORS } from '../../../lib/theme';
 import { useTeam } from '../../../lib/TeamContext';
 
 const PROMPTS = [
@@ -23,12 +23,14 @@ export default function Reflections() {
         setText('');
     };
 
+    const placeholderColor = scheme === 'dark' ? 'rgba(240, 244, 244, 0.3)' : 'rgba(45, 62, 64, 0.3)';
+
     return (
         <ScrollView className={pageClass}>
             <View className={`${pagePadClass} pt-16 pb-12`}>
                 {/* Header */}
                 <View className="flex-row items-center gap-4 mb-8">
-                    <PenLine size={32} className="text-primary" />
+                    <PenLine size={32} color={COLORS[scheme].primary} />
                     <PText variant="h1">Reflections</PText>
                 </View>
 
@@ -57,14 +59,14 @@ export default function Reflections() {
                     <TextInput
                         multiline
                         placeholder="Write your thoughts here..."
-                        placeholderTextColor={scheme === 'dark' ? '#FFFFFF50' : '#2D3E4050'}
+                        placeholderTextColor={placeholderColor}
                         value={text}
                         onChangeText={setText}
                         style={{
                             minHeight: 160,
                             textAlignVertical: 'top',
                             fontSize: 16,
-                            color: scheme === 'dark' ? '#F0F4F4' : '#2D3E40',
+                            color: COLORS[scheme].text,
                             lineHeight: 24,
                             fontFamily: 'Inter',
                         }}

@@ -2,7 +2,7 @@ import { View, FlatList } from 'react-native';
 import { Trophy, Medal, Star } from 'lucide-react-native';
 import { PText, PCard } from '../../../components/porcelain';
 import { pageClass, pagePadClass } from '../../../lib/styles';
-import { usePorcelainTheme } from '../../../lib/theme';
+import { usePorcelainTheme, COLORS } from '../../../lib/theme';
 
 // ─── Jade success colour for top ranks ───────────────────────────────────────
 
@@ -23,24 +23,23 @@ const LEADERBOARD_DATA = [
     { id: '10', rank: 10, name: 'Joule Giants', school: 'Kelvin School', score: 1410, delta: '+2' },
 ];
 
-// ─── Rank badge colours ──────────────────────────────────────────────────────
-
-const RANK_BADGE: Record<number, { bg: string; fg: string }> = {
-    1: { bg: '#F59E0B22', fg: '#F59E0B' }, // Gold
-    2: { bg: '#94A3B822', fg: '#94A3B8' }, // Silver
-    3: { bg: '#B4530922', fg: '#B45309' }, // Bronze
-};
-
 // ─── Leaderboard Screen ──────────────────────────────────────────────────────
 
 export default function Leaderboard() {
     const { scheme } = usePorcelainTheme();
 
+    const getRankColors = (rank: number) => {
+        if (rank === 1) return { bg: COLORS[scheme].gold + '22', fg: COLORS[scheme].gold };
+        if (rank === 2) return { bg: COLORS[scheme].silver + '22', fg: COLORS[scheme].silver };
+        if (rank === 3) return { bg: COLORS[scheme].bronze + '22', fg: COLORS[scheme].bronze };
+        return { bg: COLORS[scheme].border + '30', fg: COLORS[scheme].textMuted };
+    };
+
     return (
         <View className={`${pageClass} ${pagePadClass} pt-16`}>
             {/* Header */}
             <View className="flex-row items-center gap-4 mb-2">
-                <Trophy size={32} color="#F59E0B" />
+                <Trophy size={32} color={COLORS[scheme].gold} />
                 <PText variant="h1">Leaderboard</PText>
             </View>
             <PText variant="caption" className="mb-8">Top performing teams across all challenges</PText>
@@ -51,7 +50,8 @@ export default function Leaderboard() {
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => {
                     const isTop3 = item.rank <= 3;
-                    const badge = RANK_BADGE[item.rank];
+                    const badge = getRankColors(item.rank);
+                    const jadeColor = COLORS[scheme].jade;
 
                     return (
                         <PCard
@@ -61,14 +61,12 @@ export default function Leaderboard() {
                             {/* Rank badge */}
                             <View
                                 className="w-10 h-10 rounded-full items-center justify-center"
-                                style={{
-                                    backgroundColor: badge ? badge.bg : (scheme === 'dark' ? '#3E424830' : '#E2E6E830'),
-                                }}
+                                style={{ backgroundColor: badge.bg }}
                             >
                                 {isTop3 ? (
-                                    <Medal size={18} color={badge!.fg} />
+                                    <Medal size={18} color={badge.fg} />
                                 ) : (
-                                    <PText variant="label" className="text-text/40">
+                                    <PText variant="label" className="text-text-muted">
                                         {item.rank}
                                     </PText>
                                 )}
@@ -84,16 +82,15 @@ export default function Leaderboard() {
                             <View className="items-end">
                                 <PText
                                     variant="h3"
-                                    className={isTop3 ? "" : "text-primary"}
-                                    style={isTop3 ? { color: JADE } : undefined}
+                                    style={{ color: isTop3 ? jadeColor : COLORS[scheme].primary }}
                                 >
                                     {item.score.toLocaleString()}
                                 </PText>
                                 <View className="flex-row items-center gap-1">
-                                    {isTop3 && <Star size={10} color={JADE} />}
+                                    {isTop3 && <Star size={10} color={jadeColor} />}
                                     <PText
                                         variant="caption"
-                                        style={isTop3 ? { color: JADE } : undefined}
+                                        style={isTop3 ? { color: jadeColor } : undefined}
                                     >
                                         {item.delta} today
                                     </PText>

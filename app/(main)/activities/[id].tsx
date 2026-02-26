@@ -5,7 +5,7 @@ import { CheckCircle2, Video } from 'lucide-react-native';
 import { PText, PCard, PButton } from '../../../components/porcelain';
 import { pageClass, pagePadClass } from '../../../lib/styles';
 import { getActivity, type StatField } from '../../../lib/activities';
-import { usePorcelainTheme } from '../../../lib/theme';
+import { usePorcelainTheme, COLORS } from '../../../lib/theme';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -91,6 +91,8 @@ export default function ActivityScreen() {
 
     const allAttemptsComplete = attempts.length >= activity.maxAttempts;
 
+    const activeColor = COLORS[scheme][activity.categoryKey] || COLORS[scheme].primary;
+
     const progressWidth = progressAnim.interpolate({
         inputRange: [0, 1],
         outputRange: ['0%', '100%'],
@@ -105,9 +107,9 @@ export default function ActivityScreen() {
                     {/* ── Header ──────────────────────────────────────────────────── */}
                     <View
                         className="px-3 py-1 rounded-full self-start mb-3"
-                        style={{ backgroundColor: activity.categoryColor + '18' }}
+                        style={{ backgroundColor: activeColor + '18' }}
                     >
-                        <PText variant="label" style={{ color: activity.categoryColor }}>
+                        <PText variant="label" style={{ color: activeColor }}>
                             {activity.category}
                         </PText>
                     </View>
@@ -122,7 +124,7 @@ export default function ActivityScreen() {
                                 borderStyle: 'dashed',
                             }}
                         >
-                            <Video size={36} color={activity.categoryColor} />
+                            <Video size={36} color={activeColor} />
                             <PText variant="label" className="mt-3 text-center">
                                 {'📹 Video / Sensor Capture Area'}
                             </PText>
@@ -142,7 +144,7 @@ export default function ActivityScreen() {
                                 <PText variant="caption" className="mb-2 text-center">{stat.label}</PText>
                                 <PText
                                     variant="h2"
-                                    style={{ color: activity.categoryColor }}
+                                    style={{ color: activeColor }}
                                 >
                                     {currentValues[i]}
                                 </PText>
@@ -171,10 +173,10 @@ export default function ActivityScreen() {
                                     style={{
                                         backgroundColor:
                                             i < attempts.length
-                                                ? activity.categoryColor          // completed
+                                                ? activeColor          // completed
                                                 : i === attempts.length && captureState === 'capturing'
-                                                    ? activity.categoryColor + '60' // in-progress
-                                                    : (scheme === 'dark' ? '#3E4248' : '#E2E6E8'),                // pending
+                                                    ? activeColor + '60' // in-progress
+                                                    : COLORS[scheme].border,                // pending
                                     }}
                                 />
                             ))}
@@ -187,7 +189,7 @@ export default function ActivityScreen() {
                                     className="h-2 rounded-full"
                                     style={{
                                         width: progressWidth,
-                                        backgroundColor: activity.categoryColor,
+                                        backgroundColor: activeColor,
                                     }}
                                 />
                             </View>
@@ -202,9 +204,9 @@ export default function ActivityScreen() {
                                 <PCard key={idx} className="mb-3 flex-row items-center gap-3">
                                     <View
                                         className="w-8 h-8 rounded-full items-center justify-center"
-                                        style={{ backgroundColor: activity.categoryColor + '18' }}
+                                        style={{ backgroundColor: activeColor + '18' }}
                                     >
-                                        <CheckCircle2 size={16} color={activity.categoryColor} />
+                                        <CheckCircle2 size={16} color={activeColor} />
                                     </View>
                                     <View className="flex-1">
                                         <PText variant="label">Attempt {idx + 1}</PText>

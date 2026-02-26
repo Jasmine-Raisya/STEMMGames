@@ -1,6 +1,8 @@
 // ─── Activity Data Configuration ─────────────────────────────────────────────
 // Central registry for every activity in the STEMM Games app.
 
+import { COLORS } from './theme';
+
 export interface StatField {
     label: string;
     unit: string;
@@ -12,8 +14,8 @@ export interface ActivityConfig {
     id: string;
     title: string;
     category: string;
-    /** Hex colour used for the category badge */
-    categoryColor: string;
+    /** Category color key for the master palette */
+    categoryKey: keyof typeof COLORS.light;
     stats: [StatField, StatField, StatField];
     maxAttempts: number;
 }
@@ -25,14 +27,12 @@ const rand = (min: number, max: number, decimals = 1) =>
 
 // ─── Engineering Challenges ─────────────────────────────────────────────────
 
-const ENGINEERING_COLOR = '#2E5E4E'; // Verdigris Green
-
 export const ACTIVITIES: Record<string, ActivityConfig> = {
     parachute: {
         id: 'parachute',
         title: 'Parachute Drop',
         category: 'Engineering Challenge',
-        categoryColor: ENGINEERING_COLOR,
+        categoryKey: 'engineering',
         maxAttempts: 3,
         stats: [
             { label: 'Fall Time', unit: 's', generate: () => rand(1.5, 4.5) },
@@ -44,7 +44,7 @@ export const ACTIVITIES: Record<string, ActivityConfig> = {
         id: 'sound-hunter',
         title: 'Sound Hunter',
         category: 'Engineering Challenge',
-        categoryColor: ENGINEERING_COLOR,
+        categoryKey: 'engineering',
         maxAttempts: 3,
         stats: [
             { label: 'Avg dB', unit: 'dB', generate: () => rand(40, 85, 0) },
@@ -56,7 +56,7 @@ export const ACTIVITIES: Record<string, ActivityConfig> = {
         id: 'hand-fan',
         title: 'Hand-Fan Engineering',
         category: 'Engineering Challenge',
-        categoryColor: ENGINEERING_COLOR,
+        categoryKey: 'engineering',
         maxAttempts: 3,
         stats: [
             { label: 'Distance', unit: 'cm', generate: () => rand(5, 60, 0) },
@@ -68,7 +68,7 @@ export const ACTIVITIES: Record<string, ActivityConfig> = {
         id: 'earthquake',
         title: 'Earthquake Tower',
         category: 'Engineering Challenge',
-        categoryColor: ENGINEERING_COLOR,
+        categoryKey: 'engineering',
         maxAttempts: 3,
         stats: [
             { label: 'Vibration', unit: 'deg', generate: () => rand(1, 25, 1) },
@@ -83,7 +83,7 @@ export const ACTIVITIES: Record<string, ActivityConfig> = {
         id: 'performance',
         title: 'Performance Showcase',
         category: 'Arts Challenge',
-        categoryColor: '#8B5CF6', // Violet
+        categoryKey: 'arts',
         maxAttempts: 3,
         stats: [
             { label: 'Duration', unit: 's', generate: () => rand(30, 180, 0) },
@@ -98,7 +98,7 @@ export const ACTIVITIES: Record<string, ActivityConfig> = {
         id: 'reaction',
         title: 'Reaction Timer',
         category: 'Science Challenge',
-        categoryColor: '#C44536', // Accent Red
+        categoryKey: 'science',
         maxAttempts: 3,
         stats: [
             { label: 'Reaction', unit: 'ms', generate: () => rand(150, 450, 0) },
@@ -113,7 +113,7 @@ export const ACTIVITIES: Record<string, ActivityConfig> = {
         id: 'breathing',
         title: 'Breathing Exercise',
         category: 'Health Challenge',
-        categoryColor: '#0EA5E9', // Sky Blue
+        categoryKey: 'health',
         maxAttempts: 3,
         stats: [
             { label: 'BPM', unit: 'bpm', generate: () => rand(55, 100, 0) },
@@ -128,7 +128,7 @@ export const ACTIVITIES: Record<string, ActivityConfig> = {
         id: 'human-performance',
         title: 'Human Performance',
         category: 'Health & Medical Sciences',
-        categoryColor: '#8AA9A6', // Frosted Mint
+        categoryKey: 'medicine',
         maxAttempts: 3,
         stats: [
             { label: 'Coordination', unit: '%', generate: () => rand(40, 99, 0) },
@@ -141,7 +141,7 @@ export const ACTIVITIES: Record<string, ActivityConfig> = {
         id: 'reaction-board',
         title: 'Reaction Board',
         category: 'Health & Medical Sciences',
-        categoryColor: '#8AA9A6', // Frosted Mint
+        categoryKey: 'medicine',
         maxAttempts: 3,
         stats: [
             { label: 'Left Hand', unit: 'ms', generate: () => rand(150, 500, 0) },
@@ -154,7 +154,7 @@ export const ACTIVITIES: Record<string, ActivityConfig> = {
         id: 'breathing-pace',
         title: 'Breathing Pace',
         category: 'Health & Medical Sciences',
-        categoryColor: '#8AA9A6', // Frosted Mint
+        categoryKey: 'medicine',
         maxAttempts: 3,
         stats: [
             { label: 'BPM Rest', unit: 'bpm', generate: () => rand(55, 80, 0) },

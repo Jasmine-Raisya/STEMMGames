@@ -21,7 +21,7 @@ export function PorcelainThemeProvider({ children }: { children: React.ReactNode
 
     return (
         <ThemeContext.Provider value={value}>
-            <View className="flex-1 bg-background">
+            <View className={`flex-1 bg-background ${scheme === 'dark' ? 'dark' : ''}`}>
                 {children}
             </View>
         </ThemeContext.Provider>

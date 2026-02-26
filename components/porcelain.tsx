@@ -72,7 +72,7 @@ const textVariantMap: Record<TextVariant, string> = {
     h3: 'font-inter text-xl font-semibold text-text',
     body: 'font-inter text-base text-text leading-6',
     label: 'font-inter text-sm font-medium text-text',
-    caption: 'font-inter text-sm text-text/60',
+    caption: 'font-inter text-sm text-text-muted',
 };
 
 export function PText({ variant = 'body', children, className, style }: PTextProps) {

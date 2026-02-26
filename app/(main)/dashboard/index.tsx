@@ -9,16 +9,13 @@ import { pageClass, pagePadClass } from '../../../lib/styles';
 import { usePorcelainTheme } from '../../../lib/theme';
 import { useTeam } from '../../../lib/TeamContext';
 
-// ─── Constants ───────────────────────────────────────────────────────────────
-
-const ENGINEERING_COLOR = '#2E5E4E';
-const HEALTH_COLOR = '#8AA9A6';
+import { COLORS } from '../../../lib/theme';
 
 const SECTIONS = [
     {
         title: 'Engineering Challenges',
         description: 'Building the future of STEMM',
-        color: ENGINEERING_COLOR,
+        categoryKey: 'engineering' as keyof typeof COLORS.light,
         items: [
             { id: 'parachute', title: 'Parachute Drop', icon: Rocket },
             { id: 'sound-hunter', title: 'Sound Hunter', icon: Volume2 },
@@ -29,7 +26,7 @@ const SECTIONS = [
     {
         title: 'Health & Medical Sciences',
         description: 'Optimising human performance',
-        color: HEALTH_COLOR,
+        categoryKey: 'health' as keyof typeof COLORS.light,
         items: [
             { id: 'human-performance', title: 'Human Performance', icon: Heart },
             { id: 'reaction-board', title: 'Reaction Board', icon: Zap },
@@ -74,9 +71,9 @@ export default function Dashboard() {
                         className="p-3 rounded-2xl bg-surface border border-border"
                     >
                         {themeMode === 'light' ? (
-                            <Moon size={20} className="text-primary" />
+                            <Moon size={20} color={scheme === 'dark' ? '#F0F4F4' : '#2D3E40'} />
                         ) : (
-                            <Sun size={20} className="text-primary" />
+                            <Sun size={20} color={scheme === 'dark' ? '#F0F4F4' : '#2D3E40'} />
                         )}
                     </TouchableOpacity>
                 </View>
@@ -92,7 +89,7 @@ export default function Dashboard() {
                         className="w-14 h-14 rounded-full bg-primary/10 items-center justify-center"
                         onPress={() => router.push('/(main)/leaderboard' as any)}
                     >
-                        <Trophy size={26} className="text-primary" />
+                        <Trophy size={26} color={COLORS[scheme].engineering} />
                     </TouchableOpacity>
                 </PCard>
 
@@ -104,25 +101,28 @@ export default function Dashboard() {
                                 <PText variant="h3">{section.title}</PText>
                                 <PText variant="caption">{section.description}</PText>
                             </View>
-                            <LayoutGrid size={20} color={section.color + '60'} />
+                            <LayoutGrid size={20} color={COLORS[scheme][section.categoryKey] + '60'} />
                         </View>
 
                         <View className="flex-row flex-wrap gap-3">
-                            {section.items.map((item) => (
-                                <PCard
-                                    key={item.id}
-                                    className="w-[48%] p-5 items-center justify-center"
-                                    onPress={() => router.push(`/(main)/activities/${item.id}` as any)}
-                                >
-                                    <View
-                                        className="w-12 h-12 rounded-2xl items-center justify-center mb-4"
-                                        style={{ backgroundColor: section.color + '15' }}
+                            {section.items.map((item) => {
+                                const activeColor = COLORS[scheme][section.categoryKey];
+                                return (
+                                    <PCard
+                                        key={item.id}
+                                        className="w-[48%] p-5 items-center justify-center"
+                                        onPress={() => router.push(`/(main)/activities/${item.id}` as any)}
                                     >
-                                        <item.icon size={22} color={section.color} />
-                                    </View>
-                                    <PText variant="label" className="text-center">{item.title}</PText>
-                                </PCard>
-                            ))}
+                                        <View
+                                            className="w-12 h-12 rounded-2xl items-center justify-center mb-4"
+                                            style={{ backgroundColor: activeColor + '15' }}
+                                        >
+                                            <item.icon size={22} color={activeColor} />
+                                        </View>
+                                        <PText variant="label" className="text-center">{item.title}</PText>
+                                    </PCard>
+                                );
+                            })}
                         </View>
                     </View>
                 ))}
